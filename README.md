@@ -14,12 +14,15 @@ MySQL (v8.0 이상)
 설치 및 실행
 Bash
 1. 의존성 패키지 설치
+
 $ npm install
 
-2. 서버 실행 
+3. 서버 실행 
+
 $ npm run start
 
-3. 단위 테스트 실행
+4. 단위 테스트 실행
+
 $ npm run test
 
 테스트용 클라이언트 (시연용)
