@@ -55,9 +55,9 @@ DB에 완성된 텍스트 문장을 저장하지 않고, templateCode와 variabl
 관리자 모니터링: TypeORM의 Eager Loading(Join)을 활용하여 알림 스케줄 조회 시 연관된 유저 데이터를 매핑하여 통합 제공하는 API를 구현했습니다.
 
 # 4. 향후 개선 과제
-대용량 트래픽 대비 (Message Queue 도입)
-다중 서버(Scale-out) 환경으로 확장될 경우 스케줄러의 중복 실행(Concurrency) 문제가 발생할 수 있습니다. 이를 해결하기 위해 Redis 기반의 BullMQ나 Kafka 등의 메시지 큐 시스템을 도입하여 워커(Worker) 노드를 분리할 계획입니다.
-Dead Letter Queue (DLQ) 처리
-최대 재시도 횟수를 초과하여 최종 실패(failed) 처리된 메시지들을 별도로 수집하고, 관리자가 수동으로 재처리하거나 에러를 분석할 수 있는 DLQ 메커니즘을 추가할 예정입니다.
-조회 성능 최적화
-스케줄링 테이블 데이터가 누적될 경우를 대비해 status와 scheduledAt 컬럼에 복합 인덱스(Composite Index)를 구성하여 폴링 쿼리 성능을 개선할 수 있습니다.
+대용량 트래픽 대비 (Message Queue 도입)  
+다중 서버(Scale-out) 환경으로 확장될 경우 스케줄러의 중복 실행(Concurrency) 문제가 발생할 수 있습니다. 이를 해결하기 위해 Redis 기반의 BullMQ나 Kafka 등의 메시지 큐 시스템을 도입하여 워커(Worker) 노드를 분리할 계획입니다.  
+Dead Letter Queue (DLQ) 처리  
+최대 재시도 횟수를 초과하여 최종 실패(failed) 처리된 메시지들을 별도로 수집하고, 관리자가 수동으로 재처리하거나 에러를 분석할 수 있는 DLQ 메커니즘을 추가할 예정입니다.  
+조회 성능 최적화  
+스케줄링 테이블 데이터가 누적될 경우를 대비해 status와 scheduledAt 컬럼에 복합 인덱스(Composite Index)를 구성하여 폴링 쿼리 성능을 개선할 수 있습니다.  
