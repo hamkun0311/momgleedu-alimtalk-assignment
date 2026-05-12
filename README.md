@@ -3,7 +3,7 @@
 해당 프로젝트는 개발용 테스트 프로젝트로 카카오 알림톡 정보가 없어 개발자 개인 톡으로 메세지가 전송되도록 설정해 둔 상태입니다.
 
 
-1. 시작하기 (Getting Started)
+# 1. 시작하기 (Getting Started)
 사전 요구사항
 Node.js (v18 이상 권장)
 MySQL (v8.0 이상)
@@ -13,13 +13,13 @@ MySQL (v8.0 이상)
 
 설치 및 실행
 Bash
-# 1. 의존성 패키지 설치
+1. 의존성 패키지 설치
 $ npm install
 
-# 2. 서버 실행 
+2. 서버 실행 
 $ npm run start
 
-# 3. 단위 테스트 실행
+3. 단위 테스트 실행
 $ npm run test
 
 테스트용 클라이언트 (시연용)
@@ -27,7 +27,7 @@ $ npm run test
 유저 화면: index.html (회원가입, 수신 동의, 회원 탈퇴 시뮬레이션)
 관리자 화면: admin.html (예약된 알림 스케줄 및 발송 로그 모니터링)
 
-2. 설계 의도 및 아키텍처
+# 2. 설계 의도 및 아키텍처
 2.1. Queue 방식 대신 Cron + Polling DB 설계 채택
 초기 시스템 복잡도를 낮추고 운영 안정성을 확보하기 위해 외부 Message Broker(Redis, RabbitMQ 등) 대신 NestJS 내장 Cron 스케줄러와 DB Polling 방식을 선택했습니다.
 NotificationScheduleEntity 테이블을 분리하여 발송 대기(pending), 완료(sent), 실패(failed), 스킵(skipped) 상태를 엄격하게 관리합니다.
@@ -47,14 +47,14 @@ NotificationScheduleEntity 테이블을 분리하여 발송 대기(pending), 완
 DB에 완성된 텍스트 문장을 저장하지 않고, templateCode와 variables(JSON 데이터)를 분리하여 저장합니다.
 정책 변경으로 알림톡 문구를 수정해야 할 경우, DB 업데이트 없이 애플리케이션 코드(Template Switcher)만 수정하여 즉각적인 반영이 가능합니다.
 
-3. 주요 기능 요약
+# 3. 주요 기능 요약
 동적 스케줄링: 유저 가입 시 즉시, D+3, D+6, D+14 기준의 알림 데이터를 일괄 생성합니다.
 중복 발송 방지: @Index(['userId', 'templateCode'], { unique: true }) 복합 유니크 제약조건을 통해 동일 유저에게 중복된 알림이 예약되는 것을 방지합니다.
 실패 재시도 (Retry): 일시적인 네트워크 오류 등으로 발송 실패 시, 즉시 failed 처리하지 않고 attemptCount를 증가시켜 설정된 MAX_RETRY 횟수 내에서 재시도를 수행합니다.
 보안 및 환경설정: 하드코딩된 민감 정보(매직 넘버, 시크릿 키 등)를 제거하고 @nestjs/config를 활용해 .env로부터 런타임에 동적으로 주입받습니다.
 관리자 모니터링: TypeORM의 Eager Loading(Join)을 활용하여 알림 스케줄 조회 시 연관된 유저 데이터를 매핑하여 통합 제공하는 API를 구현했습니다.
 
-4. 향후 개선 과제
+# 4. 향후 개선 과제
 대용량 트래픽 대비 (Message Queue 도입)
 다중 서버(Scale-out) 환경으로 확장될 경우 스케줄러의 중복 실행(Concurrency) 문제가 발생할 수 있습니다. 이를 해결하기 위해 Redis 기반의 BullMQ나 Kafka 등의 메시지 큐 시스템을 도입하여 워커(Worker) 노드를 분리할 계획입니다.
 Dead Letter Queue (DLQ) 처리
