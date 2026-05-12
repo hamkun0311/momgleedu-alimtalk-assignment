@@ -15,15 +15,15 @@ MySQL (v8.0 이상)
 Bash
 1. 의존성 패키지 설치
 
-$ npm install
+  $ npm install
 
 3. 서버 실행 
 
-$ npm run start
+  $ npm run start
 
 4. 단위 테스트 실행
 
-$ npm run test
+  $ npm run test
 
 테스트용 클라이언트 (시연용)
 서버 구동 후, 프로젝트 내에 포함된 정적 HTML 파일을 브라우저로 열어 전체 시스템 흐름을 테스트할 수 있습니다.
